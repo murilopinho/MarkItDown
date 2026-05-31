@@ -633,14 +633,20 @@ class App(ctk.CTk, TkinterDnD.DnDWrapper):
 
     # ── Bandeja do sistema ────────────────────────────────────────────────────
     def _start_tray(self):
-        menu = pystray.Menu(
-            pystray.MenuItem("Abrir Conversor", self._show, default=True),
-            pystray.Menu.SEPARATOR,
-            pystray.MenuItem("Sair", self._quit),
-        )
-        self._tray = pystray.Icon("conversor_md", _make_icon(64),
-                                   "Conversor para Markdown", menu)
-        threading.Thread(target=self._tray.run, daemon=True).start()
+        try:
+            menu = pystray.Menu(
+                pystray.MenuItem("Abrir Conversor", self._show, default=True),
+                pystray.Menu.SEPARATOR,
+                pystray.MenuItem("Sair", self._quit),
+            )
+            self._tray = pystray.Icon("conversor_md", _make_icon(64),
+                                       "Conversor para Markdown", menu)
+            threading.Thread(target=self._tray.run, daemon=True).start()
+        except Exception:
+            # Bandeja não disponível (Linux sem AppIndicator3, Wayland, etc.)
+            # Nesse caso X fecha o app normalmente em vez de minimizar para bandeja
+            self._tray = None
+            self.protocol("WM_DELETE_WINDOW", self._quit)
 
     def _hide(self):
         self.withdraw()
