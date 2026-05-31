@@ -1,0 +1,29 @@
+# Binário compilado — distribua via GitHub Releases, não no repositório
+*.exe
+*.spec
+build/
+dist/
+
+# Resultados de testes e documentos internos
+v3_*.md
+testes/
+RELATORIO.md
+fonte/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+env/
+.env
+
+# Config gerada em runtime (salva na home do usuário, não no projeto)
+.conversor_md.json
+
+# IDEs
+.idea/
+.vscode/
+*.swp
